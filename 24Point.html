@@ -77,6 +77,11 @@
             nwLi.innerHTML = exp;
 			ulList.appendChild(nwLi)
         })
+        if (trExp.length === 0) {
+	        let nwLi = document.createElement('li')
+	        nwLi.innerHTML = '无解，或设置解的个数为0';
+	        ulList.appendChild(nwLi)
+        }
 	}
 
 	function btnEvent() {
