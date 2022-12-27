@@ -12,7 +12,7 @@
     </style>
 </head>
 <script>
-	if (window.location.protocol !== 'https:') window.location.protocol = 'https:';
+	if (window.location.protocol !== 'http:') window.location.protocol = 'http:';
 
 	//强制协议
 	function getQueryVariable(variable) {
@@ -36,7 +36,7 @@
 </body>
 <script>
 	let videoF = document.createElement('iframe');
-	videoF.src = `https://ss2.quelingfei.com:4438/aliplayer.php?url=${videoR}`;
+	videoF.src = `http://ss3.quelingfei.com:8080/wap.php?url=${videoR}`;
 	videoF.className = 'theFv';
 	document.body.appendChild(videoF);
 </script>
