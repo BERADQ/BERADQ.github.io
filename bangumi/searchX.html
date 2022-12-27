@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>SearchX</title>
-	<script>
-    if (window.location.protocol !== 'http:') window.location.protocol = 'http:';
+    <script>
+        if (window.location.protocol !== 'http:') window.location.protocol = 'http:';
     </script>
     <script>
 		console.log('俗手出品，盗用死全家');
@@ -56,8 +56,9 @@
 		console.log(parse);
 		ulRender(parse);
 	};
-	xmlHttpRequest.open('GET', `//119.91.125.201:11334/ssszz.php?top=10&q=${getQueryVariable('s')}`);
+	xmlHttpRequest.open('GET', `http://119.91.125.201:11334/ssszz.php?top=10&q=${getQueryVariable('s')}`);
 	xmlHttpRequest.send();
+
 </script>
 </body>
 </html>

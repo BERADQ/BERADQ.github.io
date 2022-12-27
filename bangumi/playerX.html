@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <script>
-    if (window.location.protocol !== 'http:') window.location.protocol = 'http:';
-    </script>
     <meta charset="UTF-8">
     <title>PlayerX</title>
+    <script>
+		if (window.location.protocol !== 'http:') window.location.protocol = 'http:';
+    </script>
     <script>
 		function getQueryVariable(variable) {
 			let query = window.location.search.substring(1);
@@ -27,16 +27,10 @@
 		scrP.src = `//d.gqyy8.com:8077/ne2/s${idx}.js`;
 		scrP.type = 'text/javascript';
 		head.append(scrP);
-
-		let runP = document.createElement('script');
-		runP.src = 'runP.js';
-		runP.type = 'text/javascript';
-		head.append(runP);
     </script>
     <a href="playerY.html" style="display: none"></a>
     <a href="runP.js" style="display: none"></a>
 </head>
-
 <body>
 <h1>
     没显示可能是抽风了，请刷新。
@@ -59,6 +53,14 @@
 			theList.appendChild(temLi);
 		}
 	}
+
+	function crUl(){
+		theList.innerHTML = '';
+    }
+	let pAr;
+	let isOnLo = false;
+
 </script>
+<script src="runP.js"></script>
 </body>
 </html>
