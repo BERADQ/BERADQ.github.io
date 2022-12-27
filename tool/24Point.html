@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .inNum {
+        width: 8rem;
+        font-size: 4rem;
+    }
+
+    .jiSuan {
+        width: 10rem;
+        font-size: 4rem;
+    }
+
+    .TheX {
+        font-size: 3rem;
+    }
+
+    #expN {
+        width: 6rem;
+        font-size: 3rem;
+    }
+</style>
+<script src="SuanShu.js" type="text/javascript"></script>
+<script>
+
+	function isSame(numsA, numsB) {
+		for (let numsAKey in numsA) {
+			if (numsB[numsAKey] !== numsA[numsAKey]) return false;
+		}
+		return true;
+	}
+
+
+	function listSame(li, pai) {
+		for (let liSe of li) {
+			if (isSame(liSe, pai)) return true;
+		}
+		return false;
+	}
+
+	function quanPai(nums) {
+		let list = [];
+		PaiLie.forEach(pai => {
+			let b = [];
+			pai.forEach(lie => b.push(nums[lie - 1]));
+			if (!listSame(list, b))
+				list.push(b);
+		});
+		return list;
+	}
+
+	function pinJie(suanFuA, kuoHaoA, shuZi, zhengFu) {
+		//(a ? (b) ? (c) ? d)
+		if (zhengFu[1] !== '' && (suanFuA[0] === '-' || suanFuA[0] === '+')) return 'none';
+		if (zhengFu[2] !== '' && (suanFuA[1] === '-' || suanFuA[1] === '+')) return 'none';
+		if (zhengFu[3] !== '' && (suanFuA[2] === '-' || suanFuA[2] === '+')) return 'none';
+		return kuoHaoA[0] + zhengFu[0] + shuZi[0] + suanFuA[0] +
+			kuoHaoA[1] + zhengFu[1] + shuZi[1] + kuoHaoA[2] + suanFuA[1] +
+			kuoHaoA[3] + zhengFu[2] + shuZi[2] + kuoHaoA[4] + suanFuA[2] +
+			zhengFu[3] + shuZi[3] + kuoHaoA[5];
+	}
+
+	function jiSuan(nums, expN) {
+		let quanNums = quanPai(nums);
+		let trExp = [];
+		quanNums.forEach(shuZi => KuoHao.forEach(kuoHaoA => SuanFu.forEach(suanFuA => ZhengFu.forEach(zhengFu => {
+			if (trExp.length >= expN) return true;
+			let exp = pinJie(suanFuA, kuoHaoA, shuZi, zhengFu);
+			if (exp === 'none') return true;
+			let tempFn = new Function(`return ${exp}`);
+			if (tempFn() === 24) trExp.push(exp);
+		}))));
+		//console.log(trExp);
+		ulList.innerHTML = '';
+		trExp.forEach(exp => {
+			let nwLi = document.createElement('li');
+			nwLi.innerHTML = exp;
+			ulList.appendChild(nwLi);
+		});
+		if (trExp.length === 0) {
+			let nwLi = document.createElement('li');
+			nwLi.innerHTML = '无解，或设置解的个数为0';
+			ulList.appendChild(nwLi);
+		}
+	}
+
+	function btnEvent() {
+		let nowTime = (new Date().getTime());
+		let nums = [document.getElementById('numA').value,
+			document.getElementById('numB').value,
+			document.getElementById('numC').value,
+			document.getElementById('numD').value];
+		let expN = document.getElementById('expN').value;
+		jiSuan(nums, expN);
+		nowTime = (new Date().getTime()) - nowTime;
+		yongShi.innerHTML = `总共用时${nowTime}ms`
+	}
+</script>
+<body>
+<p>QQ:3605331714</p>
+<a href="https://github.com/BERADQ">Github 主页</a>
+<div>
+    <input type="number" id="numA" value=0 class="inNum">
+    <input type="number" id="numB" value=0 class="inNum">
+    <input type="number" id="numC" value=0 class="inNum">
+    <input type="number" id="numD" value=0 class="inNum">
+</div>
+<button onclick="btnEvent()" class="jiSuan">
+    计算
+</button>
+<samp class="TheX">计算 <input type="number" id="expN" value=16> 个答案</samp>
+<p id="yongShi"></p>
+<ul id="jieGuo">
+
+</ul>
+<script>
+	let ulList = document.getElementById('jieGuo');
+	let yongShi = document.getElementById('yongShi');
+</script>
+</body>
+</html>
