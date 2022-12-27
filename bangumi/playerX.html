@@ -42,21 +42,23 @@
 <script>
 	let theList = document.getElementById('m3u8List');
 
-	function runPlayer(playArr,arrName) {
+	function runPlayer(playArr, arrName) {
 		for (const teP in playArr) {
 			let temLi = document.createElement('li');
 			let temA = document.createElement('a');
-			temA.href = `playerY.html?vsrc=${playArr[teP].split(',')[0]}`
-            temA.innerHTML = unescape(playArr[teP].split(',')[2]);
+			let vUri = playArr[teP].split(',')[0];
+			temA.href = (vUri.split('.').pop() === 'html') ? `playerJ.html?vsrc=${vUri}` : `playerY.html?vsrc=${vUri}`;
+			temA.innerHTML = unescape(playArr[teP].split(',')[2]);
 			temLi.innerHTML = `源数组${arrName}[${teP}]:`;
 			temLi.append(temA);
 			theList.appendChild(temLi);
 		}
 	}
 
-	function crUl(){
+	function crUl() {
 		theList.innerHTML = '';
-    }
+	}
+
 	let pAr;
 	let isOnLo = false;
 
