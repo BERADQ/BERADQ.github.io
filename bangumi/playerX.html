@@ -21,40 +21,79 @@
 
 		let idx = getQueryVariable('idx');
 
-		let head = document.getElementsByTagName('head').item(0);
-
 		let scrP = document.createElement('script');
 		scrP.src = `//d.gqyy8.com:8077/ne2/s${idx}.js`;
 		scrP.type = 'text/javascript';
-		head.append(scrP);
+		document.head.appendChild(scrP);
     </script>
-    <a href="playerY.html" style="display: none"></a>
-    <a href="runP.js" style="display: none"></a>
+    <style>
+        .thePlayer{
+            border: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
+<div id="videoF">
+</div>
 <h1>
     没显示可能是抽风了，请刷新。
 </h1>
 <ul id="m3u8List">
 
 </ul>
-
+<a href="playerY.html" style="display: none"></a>
+<a href="runP.js" style="display: none"></a>
 <script>
 	let theList = document.getElementById('m3u8List');
+	let videoF = document.getElementById('videoF');
 
 	function runPlayer(playArr, arrName) {
 		for (const teP in playArr) {
 			let temLi = document.createElement('li');
 			let temA = document.createElement('a');
 			let vUri = playArr[teP].split(',')[0];
-			temA.href = (vUri.split('.').pop() === 'html') ? `playerJ.html?vsrc=${vUri}` : `playerY.html?vsrc=${vUri}`;
+			// temA.href = (vUri.split('.').pop() === 'html') ? `playerJ.html?vsrc=${vUri}` : `playerY.html?vsrc=${vUri}`;
+			temA.href = `javascript:addPlayer('${vUri}');`;
 			temA.innerHTML = unescape(playArr[teP].split(',')[2]);
-			temLi.innerHTML = `源数组${arrName}[${teP}]:`;
+			temLi.innerHTML = `${arrName}源[${teP}]:`;
 			temLi.append(temA);
 			theList.appendChild(temLi);
 		}
 	}
-
+	function addPlayer(vUri){
+        let temF = document.createElement('iframe')
+        temF.src = (vUri.split('.').pop() === 'html') ? `playerJ.html?vsrc=${vUri}` : `playerY.html?vsrc=${vUri}`;
+		temF.className = 'thePlayer'
+        temF.name = 'theEndPlay'
+        temF.scrolling = 'no'
+        temF.onload = function (){
+			this.height = theEndPlay.document.body.scrollHeight;
+        }
+        videoF.innerHTML = '';
+        videoF.appendChild(temF);
+    }
+    const SunZ = [
+		"%E4%BF%97",
+        "%E6%89%8B%E5%87",
+        "%BA%E5%93%81%EF",
+        "%BC%8C%E7%9B%97",
+        "%E7%94%A8%E6%AD%BB",
+        "%E5%85%A8%E5%AE%B6",
+        console
+    ];
+	const me$ap = [
+		{name: "一般", id: "playarr"},
+		{name: "LZ", id: "playarr_lz"},
+		{name: "WJ", id: "playarr_wj"},
+		{name: "二般", id: "playarr_1"},
+		{name: "三般", id: "playarr_2"},
+		{name: "BJ", id: "playarr_bj"},
+		{name: "FS", id: "playarr_fs"},
+		{name: "HN", id: "playarr_hn"}
+	];
+	//上面这是个对象数组，存储着源相关的内容
+	//name是显示在屏幕上的名字，id是本不应该存在的对象的名字
 	function crUl() {
 		theList.innerHTML = '';
 	}
