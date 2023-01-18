@@ -1,1 +1,0 @@
-# BERADQ.github.io
