@@ -1,5 +1,10 @@
 # Simple workflow for deploying static content to GitHub Pages
 name: Node.js CI
+permissions:
+  contents: write
+  pull-requests: write 
+  issues: read
+  packages: none
 
 on:
   push:
