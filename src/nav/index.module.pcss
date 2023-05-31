@@ -1,0 +1,36 @@
+.tab {
+  border: 0;
+  background-color: transparent;
+  padding: 13px 0;
+  color: #f5ffff;
+  &:hover {
+    background-color: #39c5bb12;
+    transition: all 250ms;
+    @media(pointer:coarse){
+      background-color: unset;
+    }
+    &:active{
+      background-color: unset;
+    }
+  }
+}
+.indicator {
+  position: absolute;
+  background-color: #39c5bb33;
+  transition: all 250ms;
+  &[data-orientation="vertical"] {
+    width: 100%;
+    border-right: var(--indicator-width) solid #39c5bb;
+  }
+}
+.avatar {
+  width: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > .img {
+    border-radius: 50%;
+    width: 70%;
+  }
+}
