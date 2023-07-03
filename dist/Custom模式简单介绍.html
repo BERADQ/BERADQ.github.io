@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Custom模式简单介绍.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p><strong>适用于金丝雀0.3.35c</strong></p>
+<h2 id="%E7%94%B1%E6%9D%A5%E5%8E%9F%E5%9B%A0">由来/原因</h2>
+<p>这个功能并不是无意添加的：在多次使用语言模型后会产生自定义的想法，现在主流的做法是使用 <code>Prompt</code></p>
+<p>那么会趋同的出现类似以下 Prompt</p>
+<pre class="hljs"><code><div><span class="hljs-attr">eg:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">role:</span> <span class="hljs-string">system</span>
+    <span class="hljs-attr">content:</span> <span class="hljs-string">|-
+      现在开始的对话都是来自于群聊，你将负责以一位xxx的立场在群众与大家讨论。
+      群中发来的消息格式为：[userid,username]：[cotent]
+      你应该输出的格式为：[action]: [cotent]
+</span>      
+      <span class="hljs-string">其中userid代表人物账号，username代表人物名称。</span>
+      <span class="hljs-string">你输出的格式中action代表着当前你的行为，可能的值为：[silent,ponder,say]。</span>
+      <span class="hljs-string">content皆为对话的内容。</span>
+      
+      <span class="hljs-string">请严格按照以上内容输出，在我保持格式的同时，请你保持格式。</span>
+</div></code></pre>
+<p>当然，上述 Prompt 只是一个简单的例子，并没有经过测试其是否有效。
+在例子中，我们可以看到：我们命令Ai以固定的格式进行输出，来达成我们想要的目的，最终用户可以通过理解 action 的内容来理解Ai的行为。
+但是这并不是我们真正想要的。如何做到 [action] 为 silent 时，让Ai确实的沉默呢，这将是本篇想要讨论的内容与Custom模式的由来。</p>
+<h2 id="custom%E7%9A%84%E5%9F%BA%E7%A1%80">Custom的基础</h2>
+<h3 id="%E5%89%8D%E7%BD%AE">前置</h3>
+<p>Custom模式提供了一种在获取到 <strong>消息链</strong> 之后自定义处理并调用默认chat后得到结果再处理的的方法。
+在了解Custom模式前，你应该拥有JavaScript的基础知识。</p>
+<h3 id="%E6%A6%82%E5%BF%B5">概念</h3>
+<h4 id="%E4%BD%A0%E9%9C%80%E8%A6%81%E7%90%86%E8%A7%A3%E4%BB%A5%E4%B8%8B%E6%A6%82%E5%BF%B5%E5%85%B6%E5%AE%9E%E5%BE%88%E7%AE%80%E5%8D%95">你需要理解以下概念（其实很简单）</h4>
+<ol>
+<li>消息元素</li>
+<li>上下文</li>
+<li>消息链</li>
+</ol>
+<h4 id="%E6%8E%A5%E4%B8%8B%E6%9D%A5%E6%8C%89%E7%85%A7%E9%A1%BA%E5%BA%8F%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3">接下来按照顺序带你理解</h4>
+<ol>
+<li>用户发给Ai的每句话，Ai返回的每句话，包括系统的要求都是消息元素。
+每个消息元素都是一个对象，其中包含两个键值对。如下一个例子：<pre class="hljs"><code><div></div></code></pre>
+</li>
+</ol>
+<p>{role:&quot;system&quot;, content:&quot;逸一世误一世&quot;}
+```
+可以很简单的理解 <code>role[角色]</code> <code>content[内容]</code> 。</p>
+<pre><code>这个消息实际为：system给与Ai的要求“逸一世误一世”
+同理还可以有：user对Ai说了“逸久矣就罢已龄”
+那么Ai就回答：“我不明白您在说什么，请提供更多上下文。”
+写成消息元素就是这样的：
+```js
+</code></pre>
+<p>{role:&quot;system&quot;, content:&quot;逸一世误一世&quot;}
+{role:&quot;user&quot;, content:&quot;逸久矣就罢已龄&quot;}
+{role:&quot;assistant&quot;, content:&quot;我不明白您在说什么，请提供更多上下文。&quot;}
+```
+所以我们了解到 <code>role</code> 其实只有三种[assistant, user, system]，分别的意思就是其中文对应的意思。</p>
+<ol>
+<li>上下文就很好理解了，其实是就是Ai在回答时要参考的东西，通俗来说是Ai的记忆。
+不过实际上就是很多消息，也就是聊天记录。
+在Ai回答你的问题的时候，实际上是根据上文生成下文。
+不知道大家是否知道生成式语言模型到第是干什么的，其实听名字就很容易理解：生成、语言。也就是大家所熟悉的Ai续写。
+当今爆火的ChatAi也是这样的东西，只不过给他们输入的内容格式是固定的，他们的续写也是格式固定的，就像是这样：<pre class="hljs"><code><div></div></code></pre>
+</li>
+</ol>
+<p>我：xxx
+他：xxx
+我：xxx
+他：xxx
+我：xxx
+他：[N]
+```
+Ai干的事情就是从 [N] 处开始续写。
+这其实差不多能算是对话了，只要每次都把前面的保留，然后加上一句 <code>我：xxx 他：[N]</code> 让Ai往后生成即可。
+一问一答，而非直接生成的语言模型，其实就是经过了指令微调。（无需深入了解）
+现在你换种思路理解，如果这就是我所说的上下文呢？是不是合理了？
+如果你使用我的插件，并且自己写过人格，相信你已经深入理解了这些。</p>
+<ol start="3">
+<li>那么消息链顾名思义，就是一个个消息组成的链条，其实就是上下文。只是每一条消息都成为了 <code>消息元素</code> 。最终来看一个消息链实际上就是一个由一个个消息元素对象组成的数组，如下例子：<pre class="hljs"><code><div></div></code></pre>
+</li>
+</ol>
+<p>[
+{role:&quot;system&quot;, content:&quot;逸一世误一世&quot;},
+{role:&quot;user&quot;, content:&quot;逸久矣就罢已龄&quot;}
+]
+<code> 	将如上内容发给Ai，其实就是让Ai续写 `[N]` 	</code>js
+系统：逸一世误一世
+用户：逸久矣就罢已龄
+助理：[N]
+```</p>
+<h2 id="%E6%AD%A3%E5%BC%8F%E5%90%AF%E8%88%AA">正式启航</h2>
+<blockquote>
+<p>你已经了解了概念和前置知识，接下来就是Custom的编写方法了。</p>
+</blockquote>
+<h3 id="%E5%9F%BA%E7%A1%80%E5%BD%A2%E5%BC%8F">基础形式</h3>
+<p>Custom模式在每次处理消息时都会把消息发给自定义函数来让其处理，并将得到的消息元素妥当处理并发送出去。如果函数没有返回值则什么都不发送。</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
+	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
+	...
+	return res;
+};
+</div></code></pre>
+<p>Custom脚本是一个存在在Koishi工作目录的js脚本，就目前来说，这个脚本为一个文件名必须为 <code>su-chat.js</code> 的 CommonJS。
+其必须默认导出一个 async函数，形式就如上例。使用nodejs的导出方法，给 <code>module.exports</code> 赋值。
+默认导出的这个函数包含四个形参，如下伪代码：</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">type</span> Message = {role:<span class="hljs-built_in">string</span>, content:<span class="hljs-built_in">string</span>}
+<span class="hljs-keyword">type</span> MessageChain = [{role:<span class="hljs-built_in">string</span>, content:<span class="hljs-built_in">string</span>}]
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">
+环境上下文:{axios, session, vits?},
+当前用户消息:Message,
+当前消息链:MessageChain,
+默认Chat函数:(chain: MessageChain) =&gt; <span class="hljs-built_in">Promise</span>&lt;MessageChain&gt;
+</span>):<span class="hljs-title">Message</span>|<span class="hljs-title">viod</span> </span>{
+	<span class="hljs-keyword">return</span> (Message)
+}
+</div></code></pre>
+<p>当返回值为<code>viod</code> (无返回值)时当前消息不做处理，也就是沉默。</p>
+<p>我们再来看看这个例子</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
+	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
+	<span class="hljs-keyword">return</span> res;
+};
+</div></code></pre>
+<p>可以看到，我们拿到消息链之后直接使用了默认的chat函数，并且得到了一个消息元素直接return了出去。
+这个例子所达成的效果就是：和用模式1并没有什么区别。</p>
+<p>这个最基础的格式就可以作为我们的框架来使用，还记得本文开头所写的人格吗，我们要实现的是：在Ai得出 [action] 为 silent 时让它真正的沉默。</p>
+<pre class="hljs"><code><div><span class="hljs-attr">eg:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">role:</span> <span class="hljs-string">system</span>
+    <span class="hljs-attr">content:</span> <span class="hljs-string">|-
+      现在开始的对话都是来自于群聊，你将负责以一位xxx的立场在群众与大家讨论。
+      群中发来的消息格式为：[userid,username]：[cotent]
+      你应该输出的格式为：[action]: [cotent]
+</span>      
+      <span class="hljs-string">其中userid代表人物账号，username代表人物名称。</span>
+      <span class="hljs-string">你输出的格式中action代表着当前你的行为，可能的值为：[silent,send,say]。</span>
+      <span class="hljs-string">content皆为对话的内容。</span>
+      
+      <span class="hljs-string">请严格按照以上内容输出，在我保持格式的同时，请你保持格式。</span>
+</div></code></pre>
+<p>那么用Custom最简单的实现方式就是：</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
+	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
+	<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^\[silent]:/gm</span>.test(res.content)){
+		res.content = res.content.replace(<span class="hljs-regexp">/^\[silent]:/gm</span>, <span class="hljs-string">""</span>)
+		res.role = <span class="hljs-string">"silent"</span>
+	}
+	<span class="hljs-keyword">return</span> res;
+};
+</div></code></pre>
+<p><strong>注意！silent是插件提供的特殊role，chatgpt本身并不支持该role</strong>
+此role的意思是告知插件，返回的值作为正常消息元素处理进chain中，但不作为消息发送。
+这样做的目的是：为了避免Ai返回的值没有给到消息链中导致消息链混乱(可能会造成未知的问题)
+<em>虽然可以通过不返回任何值，但是这样做无论是用户还是Ai返回的消息都不会被作为记忆处理</em>
+如果不想让silent消息也作为记忆的话，请见如下例子：</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
+	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
+	<span class="hljs-keyword">if</span> (!<span class="hljs-regexp">/^\[silent]:/gm</span>.test(res.content)) <span class="hljs-keyword">return</span> res;
+};
+</div></code></pre>
+<p>同理，我们还可匹配 say ，如果匹配到了，就调用 ctx 中的 vits 并通过 ctx 中的 session 发送，注意要返回一个silent消息元素，保证记忆完整，再次强调：如果什么都不返回，当次对话Ai所说的话不会被记录进消息链中。</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
+	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
+	<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^\[say]:/gm</span>.test(res.content)) {
+		res.content = res.content.replace(<span class="hljs-regexp">/^\[say]:/gm</span>, <span class="hljs-string">""</span>)
+		<span class="hljs-keyword">if</span> (ctx.vits){
+			res.role = <span class="hljs-string">"silent"</span>;
+			<span class="hljs-keyword">const</span> ele = ctx.vits.say({<span class="hljs-attr">input</span>: res.content});
+			ctx.session.send(ele);
+		}
+	}
+	<span class="hljs-keyword">return</span> res;
+};
+</div></code></pre>
+<p>将上面的内容组合以下，我们就可以得到我们的第一个Custom脚本了。</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
+	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
+	<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^\[say]:/gm</span>.test(res.content)) {
+		res.content = res.content.replace(<span class="hljs-regexp">/^\[silent]:/gm</span>, <span class="hljs-string">""</span>)
+		<span class="hljs-keyword">if</span> (ctx.vits){
+			res.role = <span class="hljs-string">"silent"</span>;
+			<span class="hljs-keyword">const</span> ele = ctx.vits.say({<span class="hljs-attr">input</span>: res.content});
+			ctx.session.send(ele);
+		}
+	}
+	<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^\[silent]:/gm</span>.test(res.content)){
+		res.content = res.content.replace(<span class="hljs-regexp">/^\[silent]:/gm</span>, <span class="hljs-string">""</span>)
+		res.role = <span class="hljs-string">"silent"</span>
+	}
+	<span class="hljs-keyword">return</span> res;
+};
+</div></code></pre>
+<p>当然，我们还在ctx中提供了axios，你可以使用它调用自己的api，如果想要了解如何调用第三方api，请参考api的文档。</p>
+
+</body>
+</html>
