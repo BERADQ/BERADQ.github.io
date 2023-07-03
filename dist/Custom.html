@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Custom模式简单介绍.md</title>
+<title>Custom模式简单介绍</title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
@@ -368,7 +368,7 @@ code {
 <p><strong>适用于金丝雀0.3.35c</strong></p>
 <h2 id="%E7%94%B1%E6%9D%A5%E5%8E%9F%E5%9B%A0">由来/原因</h2>
 <p>这个功能并不是无意添加的：在多次使用语言模型后会产生自定义的想法，现在主流的做法是使用 <code>Prompt</code></p>
-<p>那么会趋同的出现类似以下 Prompt</p>
+<p>那么会趋同的出现类似这种Prompt：</p>
 <pre class="hljs"><code><div><span class="hljs-attr">eg:</span>
   <span class="hljs-bullet">-</span> <span class="hljs-attr">role:</span> <span class="hljs-string">system</span>
     <span class="hljs-attr">content:</span> <span class="hljs-string">|-
@@ -377,18 +377,18 @@ code {
       你应该输出的格式为：[action]: [cotent]
 </span>      
       <span class="hljs-string">其中userid代表人物账号，username代表人物名称。</span>
-      <span class="hljs-string">你输出的格式中action代表着当前你的行为，可能的值为：[silent,ponder,say]。</span>
+      <span class="hljs-string">你输出的格式中action代表着当前你的行为，可能的值为：[silent,send,say]。</span>
       <span class="hljs-string">content皆为对话的内容。</span>
       
       <span class="hljs-string">请严格按照以上内容输出，在我保持格式的同时，请你保持格式。</span>
 </div></code></pre>
-<p>当然，上述 Prompt 只是一个简单的例子，并没有经过测试其是否有效。
-在例子中，我们可以看到：我们命令Ai以固定的格式进行输出，来达成我们想要的目的，最终用户可以通过理解 action 的内容来理解Ai的行为。
-但是这并不是我们真正想要的。如何做到 [action] 为 silent 时，让Ai确实的沉默呢，这将是本篇想要讨论的内容与Custom模式的由来。</p>
+<p>当然，上述  Prompt  只是一个简单的例子，并没有经过测试其是否有效。</p>
+<p>在例子中，我们可以看到：我们命令Ai以固定的格式进行输出，来达成我们想要的目的，最终用户可以通过理解  action  的内容来理解Ai的行为。</p>
+<p>但是这并不是我们真正想要的。如何做到 <code>[action]</code> 为  <code>silent</code>  时，让Ai确实的沉默呢，这将是本篇想要讨论的内容与  Custom  模式的由来。</p>
 <h2 id="custom%E7%9A%84%E5%9F%BA%E7%A1%80">Custom的基础</h2>
 <h3 id="%E5%89%8D%E7%BD%AE">前置</h3>
-<p>Custom模式提供了一种在获取到 <strong>消息链</strong> 之后自定义处理并调用默认chat后得到结果再处理的的方法。
-在了解Custom模式前，你应该拥有JavaScript的基础知识。</p>
+<p>Custom模式提供了一种在获取到  <strong>消息链</strong>  之后自定义处理并调用默认chat后得到结果再处理的的方法。</p>
+<p>在了解Custom模式前，你应该拥有JavaScript的基础知识。</p>
 <h3 id="%E6%A6%82%E5%BF%B5">概念</h3>
 <h4 id="%E4%BD%A0%E9%9C%80%E8%A6%81%E7%90%86%E8%A7%A3%E4%BB%A5%E4%B8%8B%E6%A6%82%E5%BF%B5%E5%85%B6%E5%AE%9E%E5%BE%88%E7%AE%80%E5%8D%95">你需要理解以下概念（其实很简单）</h4>
 <ol>
@@ -398,28 +398,29 @@ code {
 </ol>
 <h4 id="%E6%8E%A5%E4%B8%8B%E6%9D%A5%E6%8C%89%E7%85%A7%E9%A1%BA%E5%BA%8F%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3">接下来按照顺序带你理解</h4>
 <ol>
-<li>用户发给Ai的每句话，Ai返回的每句话，包括系统的要求都是消息元素。
-每个消息元素都是一个对象，其中包含两个键值对。如下一个例子：</li>
+<li>用户发给Ai的每句话，Ai返回的每句话，包括系统的要求都是消息元素。</li>
 </ol>
+<p>每个消息元素都是一个对象，其中包含两个键值对。如下一个例子：</p>
 <pre class="hljs"><code><div>{<span class="hljs-attr">role</span>:<span class="hljs-string">"system"</span>, <span class="hljs-attr">content</span>:<span class="hljs-string">"逸一世误一世"</span>}
 </div></code></pre>
-<p>可以很简单的理解 <code>role[角色]</code> <code>content[内容]</code> 。</p>
-<p>这个消息实际为：system给与Ai的要求“逸一世误一世”
-同理还可以有：user对Ai说了“逸久矣就罢已龄”
-那么Ai就回答：“我不明白您在说什么，请提供更多上下文。”
-写成消息元素就是这样的：</p>
+<p>可以很简单的理解  <code>role[角色]</code> <code>content[内容]</code> 。</p>
+<p>这个消息实际为：<code>system</code>  给与Ai的要求“逸一世误一世”</p>
+<p>同理还可以有：<code>user</code>  对Ai说了“逸久矣就罢已龄”</p>
+<p>那么Ai就回答：“我不明白您在说什么，请提供更多上下文。”</p>
+<p>写成消息元素就是这样的：</p>
 <pre class="hljs"><code><div>{<span class="hljs-attr">role</span>:<span class="hljs-string">"system"</span>, <span class="hljs-attr">content</span>:<span class="hljs-string">"逸一世误一世"</span>}
 {<span class="hljs-attr">role</span>:<span class="hljs-string">"user"</span>, <span class="hljs-attr">content</span>:<span class="hljs-string">"逸久矣就罢已龄"</span>}
 {<span class="hljs-attr">role</span>:<span class="hljs-string">"assistant"</span>, <span class="hljs-attr">content</span>:<span class="hljs-string">"我不明白您在说什么，请提供更多上下文。"</span>}
 </div></code></pre>
 <p>所以我们了解到 <code>role</code> 其实只有三种[assistant, user, system]，分别的意思就是其中文对应的意思。</p>
-<ol>
-<li>上下文就很好理解了，其实是就是Ai在回答时要参考的东西，通俗来说是Ai的记忆。
-不过实际上就是很多消息，也就是聊天记录。
-在Ai回答你的问题的时候，实际上是根据上文生成下文。
-不知道大家是否知道生成式语言模型到第是干什么的，其实听名字就很容易理解：生成、语言。也就是大家所熟悉的Ai续写。
-当今爆火的ChatAi也是这样的东西，只不过给他们输入的内容格式是固定的，他们的续写也是格式固定的，就像是这样：</li>
+<ol start="2">
+<li>上下文就很好理解了，其实是就是Ai在回答时要参考的东西，通俗来说是Ai的记忆。</li>
 </ol>
+<p>不过实际上就是很多消息，是聊天记录。</p>
+<p>在Ai回答你的问题的时候，实际上在根据上文生成下文。</p>
+<p>生成式语言模型到第是干什么的？</p>
+<p>其实听名字就很容易理解：生成、语言。也就是我们所熟悉的Ai续写。</p>
+<p>当今爆火的ChatAi也是这样的东西，只不过给他们输入的内容格式是固定的，他们的续写也是格式固定的，就像是这样：</p>
 <pre class="hljs"><code><div>我：xxx
 他：xxx
 我：xxx
@@ -427,14 +428,15 @@ code {
 我：xxx
 他：[N]
 </div></code></pre>
-<p>Ai干的事情就是从 [N] 处开始续写。
-这其实差不多能算是对话了，只要每次都把前面的保留，然后加上一句 <code>我：xxx 他：[N]</code> 让Ai往后生成即可。
-一问一答，而非直接生成的语言模型，其实就是经过了指令微调。（无需深入了解）
-现在你换种思路理解，如果这就是我所说的上下文呢？是不是合理了？
-如果你使用我的插件，并且自己写过人格，相信你已经深入理解了这些。</p>
+<p>Ai干的事情就是从 [N] 处开始续写。</p>
+<p>这其实差不多能算是对话了，只要每次都把前面的保留，然后加上一句 <code>我：xxx 他：[N]</code> 让Ai往后生成即可。</p>
+<p>一问一答，而非直接生成的语言模型，其实就是经过了指令微调。（无需深入了解）</p>
+<p>现在你换种思路理解，如果这就是  Ai Chat  的上下文呢？是不是合理了？</p>
+<p>如果你使用我的插件，并且自己写过人格，相信你已经深入理解了这些。</p>
 <ol start="3">
-<li>那么消息链顾名思义，就是一个个消息组成的链条，其实就是上下文。只是每一条消息都成为了 <code>消息元素</code> 。最终来看一个消息链实际上就是一个由一个个消息元素对象组成的数组，如下例子：</li>
+<li>消息链则顾名思义，就是一个个消息组成的链条，其实就是上下文。</li>
 </ol>
+<p>只是每一条消息都成为了 <code>消息元素</code> 。最终来看一个消息链实际上就是由一个个消息元素对象组成的数组，如下例子：</p>
 <pre class="hljs"><code><div>[
 {<span class="hljs-attr">role</span>:<span class="hljs-string">"system"</span>, <span class="hljs-attr">content</span>:<span class="hljs-string">"逸一世误一世"</span>},
 {<span class="hljs-attr">role</span>:<span class="hljs-string">"user"</span>, <span class="hljs-attr">content</span>:<span class="hljs-string">"逸久矣就罢已龄"</span>}
@@ -448,37 +450,39 @@ code {
 <h2 id="%E6%AD%A3%E5%BC%8F%E5%90%AF%E8%88%AA">正式启航</h2>
 <p>你已经了解了概念和前置知识，接下来就是Custom的编写方法了。</p>
 <h3 id="%E5%9F%BA%E7%A1%80%E5%BD%A2%E5%BC%8F">基础形式</h3>
-<p>Custom模式在每次处理消息时都会把消息发给自定义函数来让其处理，并将得到的消息元素妥当处理并发送出去。如果函数没有返回值则什么都不发送。</p>
+<p>Custom模式在每次处理消息时都会把消息发给自定义函数来让其处理，</p>
+<p>并将得到的消息元素妥当处理后发送出去。</p>
+<p>如果函数没有返回值则什么都不做。</p>
 <pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
 	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
 	...
 	return res;
 };
 </div></code></pre>
-<p>Custom脚本是一个存在在Koishi工作目录的js脚本，就目前来说，这个脚本为一个文件名必须为 <code>su-chat.js</code> 的 CommonJS。
-其必须默认导出一个 async函数，形式就如上例。使用nodejs的导出方法，给 <code>module.exports</code> 赋值。
-默认导出的这个函数包含四个形参，如下伪代码：</p>
+<p>Custom脚本是一个存在在Koishi工作目录的js脚本，就目前来说，这个脚本的文件名必须为 <code>su-chat.js</code> 且为 CommonJS。</p>
+<p>其必须默认导出一个 async函数，形式就如上例。使用nodejs的导出方法，给 <code>module.exports</code> 赋值。</p>
+<p>默认导出的这个函数包含四个形参，如下伪代码：</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">type</span> Message = {role:<span class="hljs-built_in">string</span>, content:<span class="hljs-built_in">string</span>}
 <span class="hljs-keyword">type</span> MessageChain = [{role:<span class="hljs-built_in">string</span>, content:<span class="hljs-built_in">string</span>}]
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">
-环境上下文:{axios, session, vits?},
-当前用户消息:Message,
-当前消息链:MessageChain,
-默认Chat函数:(chain: MessageChain) =&gt; <span class="hljs-built_in">Promise</span>&lt;MessageChain&gt;
+  环境上下文:{axios, session, vits?},
+  当前用户消息:Message,
+  当前消息链:MessageChain,
+  默认Chat函数:(chain: MessageChain) =&gt; <span class="hljs-built_in">Promise</span>&lt;MessageChain&gt;
 </span>):<span class="hljs-title">Message</span>|<span class="hljs-title">viod</span> </span>{
 	<span class="hljs-keyword">return</span> (Message)
 }
 </div></code></pre>
-<p>当返回值为<code>viod</code> (无返回值)时当前消息不做处理，也就是沉默。</p>
+<p>当返回值为<code>viod</code> (无返回值)时当前消息不做处理，也就是什么都不做。</p>
 <p>我们再来看看这个例子</p>
 <pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
 	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
 	<span class="hljs-keyword">return</span> res;
 };
 </div></code></pre>
-<p>可以看到，我们拿到消息链之后直接使用了默认的chat函数，并且得到了一个消息元素直接return了出去。
-这个例子所达成的效果就是：和用模式1并没有什么区别。</p>
+<p>可以看到，我们拿到消息链之后直接使用了默认的chat函数，并且得到了一个消息元素直接return了出去。</p>
+<p>这个例子所达成的与模式1并没有什么区别。</p>
 <p>这个最基础的格式就可以作为我们的框架来使用，还记得本文开头所写的人格吗，我们要实现的是：在Ai得出 [action] 为 silent 时让它真正的沉默。</p>
 <pre class="hljs"><code><div><span class="hljs-attr">eg:</span>
   <span class="hljs-bullet">-</span> <span class="hljs-attr">role:</span> <span class="hljs-string">system</span>
@@ -503,17 +507,17 @@ code {
 	<span class="hljs-keyword">return</span> res;
 };
 </div></code></pre>
-<p><strong>注意！silent是插件提供的特殊role，chatgpt本身并不支持该role</strong>
-此role的意思是告知插件，返回的值作为正常消息元素处理进chain中，但不作为消息发送。
-这样做的目的是：为了避免Ai返回的值没有给到消息链中导致消息链混乱(可能会造成未知的问题)
-<em>虽然可以通过不返回任何值，但是这样做无论是用户还是Ai返回的消息都不会被作为记忆处理</em>
-如果不想让silent消息也作为记忆的话，请见如下例子：</p>
+<p><strong>注意！silent为插件提供的特殊role，chatgpt本身并不支持该role</strong></p>
+<p>此role的意思是告知插件，返回的值作为正常消息元素处理进chain中，但不作为消息发送。</p>
+<p><em>虽然可以通过不返回任何值，但是这样做无论是用户还是Ai返回的消息都不会被作为记忆处理。(不会被添加进消息链中)</em></p>
+<p>如果不想让silent消息也作为记忆的话，请见如下例子：</p>
 <pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
 	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
 	<span class="hljs-keyword">if</span> (!<span class="hljs-regexp">/^\[silent]:/gm</span>.test(res.content)) <span class="hljs-keyword">return</span> res;
 };
 </div></code></pre>
-<p>同理，我们还可匹配 say ，如果匹配到了，就调用 ctx 中的 vits 并通过 ctx 中的 session 发送，注意要返回一个silent消息元素，保证记忆完整，再次强调：如果什么都不返回，当次对话Ai所说的话不会被记录进消息链中。</p>
+<p>同理，我们还可匹配 say ，如果匹配到了，就调用 ctx 中的 vits 并通过 ctx 中的 session 发送，注意要返回一个silent消息元素，保证记忆完整，</p>
+<p>再次强调：如果什么都不返回，当次对话Ai所说的话不会被记录进消息链中。</p>
 <pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
 	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
 	<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^\[say]:/gm</span>.test(res.content)) {
@@ -527,11 +531,11 @@ code {
 	<span class="hljs-keyword">return</span> res;
 };
 </div></code></pre>
-<p>将上面的内容组合以下，我们就可以得到我们的第一个Custom脚本了。</p>
+<p>将上面的例子结合，我们就可以得到我们的第一个Custom脚本了。</p>
 <pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ctx, msg, chain, chat</span>) </span>{
 	<span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> chat(chain);
 	<span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^\[say]:/gm</span>.test(res.content)) {
-		res.content = res.content.replace(<span class="hljs-regexp">/^\[silent]:/gm</span>, <span class="hljs-string">""</span>)
+		res.content = res.content.replace(<span class="hljs-regexp">/^\[say]:/gm</span>, <span class="hljs-string">""</span>)
 		<span class="hljs-keyword">if</span> (ctx.vits){
 			res.role = <span class="hljs-string">"silent"</span>;
 			<span class="hljs-keyword">const</span> ele = ctx.vits.say({<span class="hljs-attr">input</span>: res.content});
@@ -546,6 +550,10 @@ code {
 };
 </div></code></pre>
 <p>当然，我们还在ctx中提供了axios，你可以使用它调用自己的api，如果想要了解如何调用第三方api，请参考api的文档。</p>
+<p>chain的末端其实就是msg，所以无需  <code>[...chain,msg]</code>  。</p>
+<p>提供msg的目的仅仅是方便你去调用第三方api，</p>
+<p>如果不清楚每个形参到底是什么，可以直接用  console.log  看看，</p>
+<p>但是log内容并不是输出到koishi的log中，而是在运行nodejs的终端中。</p>
 
 </body>
 </html>
