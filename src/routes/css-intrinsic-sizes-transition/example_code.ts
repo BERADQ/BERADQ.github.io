@@ -24,7 +24,7 @@ export const css = {
 }
 `.trim(),
   example1afterfix: `
-.example1 {
+.container {
   overflow: hidden;
   & > .content {
     display: grid;
@@ -39,21 +39,26 @@ export const css = {
       grid-template-rows: 1fr;
     }
   }
-  & > .suspend {
-    width: 80px;
-    height: 80px;
-    background-color: red;
-  }
-  & > .content {
-    background: blue;
-    overflow: hidden;
-    min-height: 0;
-  }
-  * {
-    margin: 0;
-  }
+  /* 略 */
 }
 `.trim(),
+  example2: `
+/* 略 */
+.container.with-default-width {
+  & > .content {
+    transition: grid-template-rows 0.8s ease-in-out;
+    grid-template-rows: 15px 0fr;
+    & > .inner {
+      grid-row: 1/-1;
+    }
+  }
+  &:hover {
+    & > .content {
+      grid-template-rows: 15px 1fr;
+    }
+  }
+}
+`,
 };
 export const html = {
   example1: `
@@ -71,11 +76,14 @@ export const html = {
   <div class="suspend"></div>
   <ul class="content">
     <div class="inner">
-      <li>这是一段内容</li>
-      <li>这是一段内容</li>
-      <li>这是一段内容</li>
+      <!-- 略 -->
     </div>
   </ul>
+</div>
+`.trim(),
+  example2: `
+<div class="container with-default-width">
+  <!-- 略 -->
 </div>
 `.trim(),
 };
