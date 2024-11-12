@@ -7,7 +7,7 @@ export default {
     unoCSS(),
     postcssPresetEnv({
       stage: 0,
-      browsers: ">0.3%, defaults",
+      browsers: ">0.1%",
     }),
     autoprefixer(),
   ],

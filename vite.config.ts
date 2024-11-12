@@ -5,7 +5,7 @@ import unocss from "unocss/vite";
 export default defineConfig({
   plugins: [sveltekit(), unocss()],
   build: {
-    target: "es6",
+    target: "es2015",
     modulePreload: {
       polyfill: true,
     },
