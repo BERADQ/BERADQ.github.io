@@ -1,3 +1,5 @@
+export const prerender = true;
+export const ssr = false;
 interface Route {
   path: string;
   title: string;
@@ -13,10 +15,6 @@ const routes: Route[] = routeFrom([
   ["/", "主页"],
   ["/css-intrinsic-sizes-transition", "css 固有尺寸过渡?"],
 ]);
-/* [
-  route("/", "主页"),
-  route("/css-intrinsic-sizes-transition", "css 固有尺寸过渡?"),
-] */
 
 export function load({ route }) {
   return {
