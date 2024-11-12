@@ -11,7 +11,7 @@
 		"@unocss/extractor-svelte": "^0.64.0",
 		"@unocss/postcss": "^0.64.0",
 		"@unocss/reset": "^0.64.0",
-		"@vitejs/plugin-legacy": "^5.4.3",
+		"autoprefixer": "^10.4.20",
 		"mdsvex": "^0.12.3",
 		"postcss-preset-env": "^10.1.0",
 		"prettier": "^3.3.3",
