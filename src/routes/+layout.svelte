@@ -17,7 +17,6 @@
       items-center
       box-border
       b-2
-      bg-white
       b-solid
       right="-8"
       text-xl
@@ -60,6 +59,9 @@
   .border {
     @apply b-solid b-2;
   }
+  #toggle {
+    @apply bg-white;
+  }
   .border-color {
     border-color: var(--border-color);
   }
@@ -80,6 +82,9 @@
     background-image: url("/not_ai/Written-By-Human-Not-By-AI-Badge-white-su.svg");
   }
   @media (prefers-color-scheme: dark) {
+    #toggle {
+      @apply bg-[#0D1117];
+    }
     .not-by-ai-en {
       background-image: url("/not_ai/Written-By-Human-Not-By-AI-Badge-black-en.svg");
     }
