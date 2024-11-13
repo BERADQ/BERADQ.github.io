@@ -2,10 +2,15 @@ import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { escapeSvelte, mdsvex } from "mdsvex";
 import { createHighlighter } from "shiki";
-import githubLight from "shiki/themes/github-light.mjs";
+import lightPlus from "shiki/themes/light-plus.mjs";
+import darkPlus from "shiki/themes/dark-plus.mjs";
+import {
+  transformerNotationDiff,
+  transformerNotationHighlight,
+} from "@shikijs/transformers";
 
 const highlighter = await createHighlighter({
-  themes: [githubLight],
+  themes: [darkPlus, lightPlus],
   langs: [
     "markdown",
     "postcss",
@@ -36,12 +41,19 @@ const config = {
       highlight: {
         highlighter: async (code, lang = "text") => {
           const html = escapeSvelte(
-            highlighter.codeToHtml(code, { lang, theme: githubLight }),
+            highlighter.codeToHtml(code, {
+              lang,
+              themes: {
+                light: lightPlus,
+                dark: darkPlus,
+              },
+              transformers: [
+                transformerNotationDiff(),
+                transformerNotationHighlight(),
+              ],
+            }),
           );
           return `{@html \`${html}\` }`;
-        },
-        alias: {
-          css: "postcss",
         },
       },
     }),

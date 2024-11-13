@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"devDependencies": {
 		"@iconify-json/carbon": "^1.2.4",
+		"@shikijs/transformers": "^1.22.2",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-static": "^3.0.6",
 		"@sveltejs/kit": "^2.0.0",
@@ -11,7 +12,6 @@
 		"@unocss/extractor-svelte": "^0.64.0",
 		"@unocss/postcss": "^0.64.0",
 		"@unocss/reset": "^0.64.0",
-		"autoprefixer": "^10.4.20",
 		"mdsvex": "^0.12.3",
 		"postcss-preset-env": "^10.1.0",
 		"prettier": "^3.3.3",

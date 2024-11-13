@@ -1,4 +1,4 @@
-# 关于使用实现 css 固有尺寸过渡的几种思路
+# 关于使用 CSS 实现固有尺寸过渡的几种思路
 
 在进行一个前端项目时，我希望实现一个常见的交互效果：用户将鼠标悬停在某个元素上时，另外一部分内容能够展开。
 
@@ -11,7 +11,7 @@ auto）来设置尺寸的元素并不支持过渡动画。
 
 但是草案毕竟是草案，一时半会也不能在常规项目中使用，于是研究了几种解决办法，故此记录。
 
-## 思路一：使用 gird 布局动画（推荐）
+<h2 id="grid">思路一：使用 gird 布局动画（推荐）</h2>
 
 ### 第一部分：基本思路
 
@@ -23,12 +23,12 @@ auto）来设置尺寸的元素并不支持过渡动画。
 
 ```css
 .container {
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: auto 0fr;
-  transition: grid-template-rows .8s ease-in-out;
+  overflow: hidden; // [!code highlight]
+  display: grid; // [!code highlight]
+  grid-template-rows: auto 0fr; // [!code highlight]
+  transition: grid-template-rows 0.8s ease-in-out; // [!code highlight]
   &:hover {
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr; // [!code highlight]
   }
   & > .suspend {
     width: 80px;
@@ -70,7 +70,6 @@ auto）来设置尺寸的元素并不支持过渡动画。
 
 可以看到过渡动画出现了，但是可以看到还有一个问题：content 发生了奇怪的漂移。
 
-
 这是因为 grid-template 中的 auto
 会使浏览器在排版时计算出现一些问题。那么解决这个问题就很简单了：☝️🤓只给 grid
 里装一个元素。
@@ -81,16 +80,16 @@ auto）来设置尺寸的元素并不支持过渡动画。
 .container {
   overflow: hidden;
   & > .content {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows .8s ease-in-out;
+    display: grid; // [!code highlight]
+    grid-template-rows: 0fr; // [!code highlight]
+    transition: grid-template-rows 0.8s ease-in-out; // [!code highlight]
     & > .inner {
-      min-height: 0;
+      min-height: 0; // [!code highlight]
     }
   }
   &:hover {
     & > .content {
-      grid-template-rows: 1fr;
+      grid-template-rows: 1fr; // [!code highlight]
     }
   }
   /* 略 */
@@ -101,7 +100,7 @@ auto）来设置尺寸的元素并不支持过渡动画。
 <div class="container">
   <div class="suspend"></div>
   <ul class="content">
-    <div class="inner">
+    <div class="inner"> // [!code highlight]
       <!-- 略 -->
     </div>
   </ul>
@@ -138,15 +137,15 @@ auto）来设置尺寸的元素并不支持过渡动画。
 /* 略 */
 .container.with-default-width {
   & > .content {
-    transition: grid-template-rows 0.8s ease-in-out;
-    grid-template-rows: 15px 0fr;
+    transition: grid-template-rows 0.8s ease-in-out; // [!code highlight]
+    grid-template-rows: 15px 0fr; // [!code highlight]
     & > .inner {
-      grid-row: 1/-1;
+      grid-row: 1/-1; // [!code highlight]
     }
   }
   &:hover {
     & > .content {
-      grid-template-rows: 15px 1fr;
+      grid-template-rows: 15px 1fr; // [!code highlight]
     }
   }
 }

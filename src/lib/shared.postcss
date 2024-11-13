@@ -3,6 +3,9 @@ body,
 #app {
   @apply h-full;
 }
+html {
+  --border-color: #000;
+}
 body {
   @apply m-0;
 }
@@ -10,5 +13,35 @@ body {
   @apply p-2 box-border;
 }
 .shiki {
-  @apply b-2 b-solid b-gray-9 p-3 overflow-auto text-4;
+  @apply b-2 b-solid p-3 overflow-auto text-4;
+}
+.line.highlighted {
+  background-color: #00000015 !important;
+  display: inline-block;
+  width: 100%;
+  & > span {
+    background-color: transparent !important;
+  }
+}
+:root {
+  color-scheme: dark light;
+}
+@media (prefers-color-scheme: dark) {
+  .line.highlighted {
+    background-color: #ffffff15 !important;
+  }
+  html {
+    @apply bg-[#0D1117];
+    color: rgb(240, 246, 252);
+    --border-color: rgb(240, 246, 252);
+  }
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    /* Optional, if you also want font styles */
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }
