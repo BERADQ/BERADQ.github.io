@@ -38,6 +38,7 @@ function routeFrom(
 }
 const routes: Route[] = routeFrom([
   ["/", "主页"],
+  ["/kokoro", "Kokoro", [["/kokoro-design", "Kokoro 设计"]]],
   [
     "/css",
     "CSS",
@@ -49,11 +50,7 @@ const routes: Route[] = routeFrom([
       ],
     ],
   ],
-  [
-    "/gpui",
-    "GPUI",
-    [["/introduction", "导论"]],
-  ],
+  ["/gpui", "GPUI", [["/introduction", "导论"]]],
 ]);
 
 const routeArray: RouteArray = [["/", "foo", [["/", "bar", [["/", "baz"]]]]]];
